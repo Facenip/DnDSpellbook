@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 public class SceneChanger : MonoBehaviour
 {
     [SerializeField]
-    int sceneid = 0;
-    public void LoadScene()
+    public void LoadScene(int sceneid)
     {
         SceneManager.LoadScene(sceneid);
     }

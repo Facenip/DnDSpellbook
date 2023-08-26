@@ -8,4 +8,19 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Scenes/FirstScreen.unity
+    guid: da3b6a5253ddc144aa88694ceaf2d231
+  - enabled: 1
+    path: Assets/Scenes/SecondSceen.unity
+    guid: d7761e2518851d44f8a150e1001d6cb3
+  - enabled: 1
+    path: Assets/Scenes/ThirdScreen.unity
+    guid: de11b9f0b2200794089de4fce5568ec8
+  - enabled: 1
+    path: Assets/Scenes/FourthScreen.unity
+    guid: 6fe1aed3d60d0cc4298e1b1c15ca8eea
+  m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: f94937faf60cf9642a533b54624dc0d0, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 0b1b5265c6177ad49831a3f93be3debb, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 3d9a6ac9435758140be182b37674162c, type: 2}
