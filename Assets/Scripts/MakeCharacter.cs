@@ -8,6 +8,7 @@ public class MakeCharacter : MonoBehaviour
     [SerializeField] private GameObject character;
     [SerializeField] private Transform parent;
     [SerializeField] TMP_InputField Name, LvL, Class, Rase;
+
     public void NewCharacter()
     {
         character.transform.Find("CharacterName").GetComponent<TextMeshProUGUI>().text=Name.text;

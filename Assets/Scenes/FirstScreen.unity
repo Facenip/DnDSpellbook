@@ -3424,6 +3424,7 @@ GameObject:
   - component: {fileID: 1876196956}
   - component: {fileID: 1876196955}
   - component: {fileID: 1876196960}
+  - component: {fileID: 1876196961}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3533,6 +3534,20 @@ MonoBehaviour:
   Lvl: {fileID: 1255169564}
   Class: {fileID: 1372656115}
   Rase: {fileID: 28342050}
+--- !u!114 &1876196961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876196954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 733c45fddf28e184cb1436bc9a06ddc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 6994872900253646983, guid: 1e1b43c268e2d8242a90f021de281525, type: 3}
+  parent: {fileID: 647816034}
 --- !u!1 &1976706952
 GameObject:
   m_ObjectHideFlags: 0
@@ -3978,7 +3993,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1876196960}
-        m_TargetAssemblyTypeName: MakeCharacter, Assembly-CSharp
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
         m_MethodName: ShowMenu
         m_Mode: 1
         m_Arguments:
