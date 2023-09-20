@@ -22,25 +22,17 @@ public class Connection : MonoBehaviour
 
     public void tableConnection()
     {
-        path = Application.dataPath + "/StreamingAssets/maindb.bytes";
-        dbconnection = new SqliteConnection("URI=file:" + path);
-        dbconnection.Open();
-/*        if(dbconnection.State == ConnectionState.Open)
+        if (Application.platform != RuntimePlatform.Android)
         {
-            SqliteCommand cmd = new SqliteCommand();
-            cmd.Connection = dbconnection;
-            cmd.CommandText = "SELECT * FROM Character";
-
-            SqliteDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                Debug.Log(String.Format("{0}  {1}  {2}  {3}  {4}", reader[0],reader[1], reader[2], reader[3], reader[4]));
-            }
+           path = Application.dataPath + "/StreamingAssets/maindb.bytes";
         }
         else
         {
-            Debug.Log("Error connection");
-        }*/
+            path = Application.persistentDataPath + "/StreamingAssets/maindb.bytes";
+        }
+
+        dbconnection = new SqliteConnection("URI=file:" + path);
+        dbconnection.Open();
     }
 
     public void tableReset()
