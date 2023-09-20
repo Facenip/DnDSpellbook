@@ -22,7 +22,7 @@ public class Connection : MonoBehaviour
 
     public void tableConnection()
     {
-        path = Application.dataPath + "/DataBase/maindb.bytes";
+        path = Application.dataPath + "/StreamingAssets/maindb.bytes";
         dbconnection = new SqliteConnection("URI=file:" + path);
         dbconnection.Open();
 /*        if(dbconnection.State == ConnectionState.Open)
