@@ -29,6 +29,13 @@ public class Connection : MonoBehaviour
         else
         {
             path = Application.persistentDataPath + "/StreamingAssets/maindb.bytes";
+            if (!File.Exists(path))
+            {
+                WWW load = new WWW("jar:file://" + Application.dataPath + "!/assets/" + "StreamingAssets/maindb.bytes");
+                while (!load.isDone) { }
+
+                File.WriteAllBytes(path, load.bytes);
+            }
         }
 
         dbconnection = new SqliteConnection("URI=file:" + path);
