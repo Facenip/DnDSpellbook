@@ -20,7 +20,7 @@ public class Connection : MonoBehaviour
 
     public void tableConnection()
     {
-        string connection = SetDataBaseClass.SetDataBase("maindb.bytes");
+        string connection = SetDataBaseClass.SetDataBase("DataBase.db");
 
         dbconnection = new SqliteConnection(connection);
         dbconnection.Open();
