@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mono.Data.Sqlite;
 using System.Data;
-using System;
+using Mono.Data;
 using TMPro;
-using UnityEngine.UI;
 
 public class Connection : MonoBehaviour
 {
     [SerializeField] private GameObject character;
     [SerializeField] private Transform parent;
-    public SqliteConnection dbconnection;
-    private string path;
+    public IDbConnection dbconnection;
 
     private void Start()
     {
@@ -22,33 +20,19 @@ public class Connection : MonoBehaviour
 
     public void tableConnection()
     {
-        if (Application.platform != RuntimePlatform.Android)
-        {
-           path = Application.dataPath + "/StreamingAssets/maindb.bytes";
-        }
-        else
-        {
-            path = Application.persistentDataPath + "/StreamingAssets/maindb.bytes";
-            if (!File.Exists(path))
-            {
-                WWW load = new WWW("jar:file://" + Application.dataPath + "!/assets/" + "StreamingAssets/maindb.bytes");
-                while (!load.isDone) { }
+        string connection = SetDataBaseClass.SetDataBase("maindb.bytes");
 
-                File.WriteAllBytes(path, load.bytes);
-            }
-        }
-
-        dbconnection = new SqliteConnection("URI=file:" + path);
+        dbconnection = new SqliteConnection(connection);
         dbconnection.Open();
     }
 
     public void tableReset()
     {
-        SqliteCommand cmd = new SqliteCommand();
-        cmd.Connection = dbconnection;
+        IDbCommand cmd = dbconnection.CreateCommand();
         cmd.CommandText = "SELECT * FROM Character";
 
-        SqliteDataReader reader = cmd.ExecuteReader();
+        IDataReader reader = cmd.ExecuteReader();
+
         while (reader.Read())
         {
             character.transform.Find("CharacterName").GetComponent<TextMeshProUGUI>().text = (string)reader[1];
