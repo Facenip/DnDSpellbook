@@ -5,6 +5,7 @@ using Mono.Data.Sqlite;
 using System.Data;
 using Mono.Data;
 using TMPro;
+using System.IO;
 
 public class Connection : MonoBehaviour
 {
@@ -20,11 +21,28 @@ public class Connection : MonoBehaviour
 
     public void tableConnection()
     {
-        string connection = "URI=file:" + Application.dataPath + "/DataBase.db";
+        string connection;
+        if (Application.platform != RuntimePlatform.Android)
+        {
+            connection = "URI=file:" + Application.dataPath + "/StreamingAssets/DataBase.db";
+        }
+        else
+        {
+            string openPath = "jar:file://" + Application.dataPath + "!/assets/DataBase.db";
+            string savePath = Application.persistentDataPath + "/";
+            File.Copy(openPath, savePath);
 
+            WWW load = new WWW(openPath);
+            while (!load.isDone)
+            {
+            }
+            File.WriteAllBytes(savePath, load.bytes);
+            connection = "URI=file:" + Application.persistentDataPath + "/DataBase.bytes";
+        }
         dbconnection = new SqliteConnection(connection);
         dbconnection.Open();
     }
+
 
     public void tableReset()
     {
