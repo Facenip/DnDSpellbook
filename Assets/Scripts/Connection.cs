@@ -28,16 +28,16 @@ public class Connection : MonoBehaviour
         }
         else
         {
-            string openPath = "jar:file://" + Application.dataPath + "!/assets/DataBase.db";
-            string savePath = Application.persistentDataPath + "/";
-            File.Copy(openPath, savePath);
-
-            WWW load = new WWW(openPath);
-            while (!load.isDone)
+            connection = Path.Combine(Application.persistentDataPath, "DataBase.db");
+            if (!File.Exists(connection))
             {
+                string fromPath = Path.Combine(Application.streamingAssetsPath, "DataBase.db");
+
+                WWW reader = new WWW(fromPath);
+                while (!reader.isDone) { }
+
+                File.WriteAllBytes(connection, reader.bytes);
             }
-            File.WriteAllBytes(savePath, load.bytes);
-            connection = "URI=file:" + Application.persistentDataPath + "/DataBase.bytes";
         }
         dbconnection = new SqliteConnection(connection);
         dbconnection.Open();
