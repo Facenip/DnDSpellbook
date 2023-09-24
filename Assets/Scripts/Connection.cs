@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mono.Data.Sqlite;
 using System.Data;
@@ -11,7 +9,7 @@ public class Connection : MonoBehaviour
 {
     [SerializeField] private GameObject character;
     [SerializeField] private Transform parent;
-    public IDbConnection dbconnection;
+    public SqliteConnection dbconnection;
 
     private void Start()
     {
@@ -22,34 +20,32 @@ public class Connection : MonoBehaviour
     public void tableConnection()
     {
         string connection;
-        /*if (Application.platform != RuntimePlatform.Android)
+        if (Application.platform != RuntimePlatform.Android)
         {
-            connection = "URI=file:" + Application.dataPath + "/StreamingAssets/maindb.bytes";
+            connection = Application.dataPath + "/DataBase.db";
         }
         else
-        {*/
-        connection = Path.Combine(Application.persistentDataPath, "maindb.bytes");
+        {
+            connection = Application.persistentDataPath + "/DataBase.db";
             if (!File.Exists(connection))
             {
-                string fromPath = Path.Combine(Application.streamingAssetsPath, "maindb.bytes");
+                WWW load = new WWW("jar:file://" + Application.dataPath + "!/assets/" + "DataBase.db");
+                while (!load.isDone) { }
 
-                WWW reader = new WWW(fromPath);
-                while (!reader.isDone) { }
-
-                File.WriteAllBytes(connection, reader.bytes);
+                File.WriteAllBytes(connection, load.bytes);
             }
-        /*}*/
-        dbconnection = new SqliteConnection(connection);
+        }
+        dbconnection = new SqliteConnection("URI=file:" + connection);
         dbconnection.Open();
     }
 
 
     public void tableReset()
     {
-        IDbCommand cmd = dbconnection.CreateCommand();
+        SqliteCommand cmd = dbconnection.CreateCommand();
         cmd.CommandText = "SELECT * FROM Character";
 
-        IDataReader reader = cmd.ExecuteReader();
+        SqliteDataReader reader = cmd.ExecuteReader();
 
         while (reader.Read())
         {
