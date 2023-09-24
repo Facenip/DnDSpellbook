@@ -22,23 +22,23 @@ public class Connection : MonoBehaviour
     public void tableConnection()
     {
         string connection;
-        if (Application.platform != RuntimePlatform.Android)
+        /*if (Application.platform != RuntimePlatform.Android)
         {
-            connection = "URI=file:" + Application.dataPath + "/StreamingAssets/DataBase.db";
+            connection = "URI=file:" + Application.dataPath + "/StreamingAssets/maindb.bytes";
         }
         else
-        {
-            connection = Path.Combine(Application.persistentDataPath, "DataBase.db");
+        {*/
+        connection = Path.Combine(Application.persistentDataPath, "maindb.bytes");
             if (!File.Exists(connection))
             {
-                string fromPath = Path.Combine(Application.streamingAssetsPath, "DataBase.db");
+                string fromPath = Path.Combine(Application.streamingAssetsPath, "maindb.bytes");
 
                 WWW reader = new WWW(fromPath);
                 while (!reader.isDone) { }
 
                 File.WriteAllBytes(connection, reader.bytes);
             }
-        }
+        /*}*/
         dbconnection = new SqliteConnection(connection);
         dbconnection.Open();
     }
