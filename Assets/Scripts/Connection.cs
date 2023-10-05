@@ -9,7 +9,7 @@ public class Connection : MonoBehaviour
 {
     [SerializeField] private GameObject character;
     [SerializeField] private Transform parent;
-    public SqliteConnection dbconnection;
+    public IDbConnection dbconnection;
 
     private void Start()
     {
@@ -20,32 +20,18 @@ public class Connection : MonoBehaviour
     public void tableConnection()
     {
         string connection;
-        if (Application.platform != RuntimePlatform.Android)
-        {
-            connection = Application.dataPath + "/DataBase.db";
-        }
-        else
-        {
-            connection = Application.persistentDataPath + "/DataBase.db";
-            if (!File.Exists(connection))
-            {
-                WWW load = new WWW("jar:file://" + Application.dataPath + "!/assets/" + "DataBase.db");
-                while (!load.isDone) { }
-
-                File.WriteAllBytes(connection, load.bytes);
-            }
-        }
-        dbconnection = new SqliteConnection("URI=file:" + connection);
+        connection = "URI=file:" + Application.dataPath + "/MainDB.s3db";
+        dbconnection = new SqliteConnection(connection);
         dbconnection.Open();
     }
 
 
     public void tableReset()
     {
-        SqliteCommand cmd = dbconnection.CreateCommand();
+        IDbCommand cmd = dbconnection.CreateCommand();
         cmd.CommandText = "SELECT * FROM Character";
 
-        SqliteDataReader reader = cmd.ExecuteReader();
+        IDataReader reader = cmd.ExecuteReader();
 
         while (reader.Read())
         {
