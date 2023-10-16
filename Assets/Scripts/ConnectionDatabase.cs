@@ -4,12 +4,13 @@ using System.Data;
 using TMPro;
 using System.IO;
 
-public class Connection : MonoBehaviour
+public class ConnectionDatabase : MonoBehaviour
 {
     [SerializeField] private GameObject character;
     [SerializeField] private Transform parent;
+    [SerializeField] TMP_InputField Name, LvL, Class, Rase;
     public SqliteConnection dbconnection;
-    public string DBPath;
+    private string DBPath;
     private string fileName = "db.bytes";
 
     private void Start()
@@ -55,6 +56,12 @@ public class Connection : MonoBehaviour
 
     public void tableReset()
     {
+
+        foreach(Transform child in parent)
+        {
+            Destroy(child.gameObject);
+        }
+
         SqliteCommand cmd = dbconnection.CreateCommand();
         cmd.CommandText = "SELECT * FROM Character";
 
@@ -67,6 +74,16 @@ public class Connection : MonoBehaviour
             character.transform.Find("CharacterClass").GetComponent<TextMeshProUGUI>().text = "Класс: " + (string)reader[2];
             character.transform.Find("CharacterRase").GetComponent<TextMeshProUGUI>().text = "Расса: " + (string)reader[3];
             Instantiate(character, parent);
+           
         }
+    }
+
+
+    public void newCharacter()
+    {
+        SqliteCommand cmdWrite = dbconnection.CreateCommand();
+        cmdWrite.CommandText = "INSERT INTO Character (Name,Class,Rase,lvl) VALUES (\""+ Name.text + "\",\"" + Class.text + "\",\"" + Rase.text + "\",\"" + LvL.text + "\")";
+        cmdWrite.ExecuteNonQuery();
+        tableReset();
     }
 }
