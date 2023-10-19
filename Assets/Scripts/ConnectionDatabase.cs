@@ -23,13 +23,14 @@ public class ConnectionDatabase : MonoBehaviour
     private string GetDatabasePath()
     {
 #if UNITY_EDITOR
-        return Path.Combine(Application.streamingAssetsPath, fileName);
+        return Path.Combine(Application.dataPath + "/StreamingAssets", fileName);
 #endif
 #if UNITY_STANDALONE
     string filePath = Path.Combine(Application.dataPath, fileName);
     if(!File.Exists(filePath)) UnpackDatabase(filePath);
     return filePath;
-#elif UNITY_ANDROID
+#endif
+#if UNITY_ANDROID
         string filePath = Path.Combine(Application.persistentDataPath, fileName);
         if (!File.Exists(filePath)) UnpackDatabase(filePath);
         return filePath;
@@ -38,7 +39,7 @@ public class ConnectionDatabase : MonoBehaviour
 
     private void UnpackDatabase(string toPath)
     {
-        string fromPath = Path.Combine(Application.streamingAssetsPath, fileName);
+        string fromPath = Path.Combine(Application.dataPath + "/Raw", fileName);
 
         WWW reader = new WWW(fromPath);
         while (!reader.isDone) { }
