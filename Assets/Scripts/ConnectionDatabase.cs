@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mono.Data.Sqlite;
 using System.Data;
+using System;
 using TMPro;
 using System.IO;
 
@@ -11,33 +12,23 @@ public class ConnectionDatabase : MonoBehaviour
     [SerializeField] TMP_InputField Name, LvL, Class, Rase;
     public SqliteConnection dbconnection;
     private string DBPath;
-    private string fileName = "db.bytes";
+    private string fileName = "MainDB.s3db";
 
-    private void Start()
+    private void Start() //Скрипт происходящий при запуске
     {
         tableConnection();
         tableReset();
     }
 
 
-    private string GetDatabasePath()
+    private string GetDatabasePath() //Получение пути до базы данных
     {
-#if UNITY_EDITOR
-        return Path.Combine(Application.dataPath + "/StreamingAssets", fileName);
-#endif
-#if UNITY_STANDALONE
-    string filePath = Path.Combine(Application.dataPath, fileName);
-    if(!File.Exists(filePath)) UnpackDatabase(filePath);
-    return filePath;
-#endif
-#if UNITY_ANDROID
-        string filePath = Path.Combine(Application.persistentDataPath, fileName);
+        string filePath = Application.dataPath + "/" + fileName;
         if (!File.Exists(filePath)) UnpackDatabase(filePath);
         return filePath;
-#endif
     }
 
-    private void UnpackDatabase(string toPath)
+    private void UnpackDatabase(string toPath) //Распаковка базы данных (Опционально для Android)
     {
         string fromPath = Path.Combine(Application.dataPath + "/Raw", fileName);
 
@@ -48,14 +39,14 @@ public class ConnectionDatabase : MonoBehaviour
     }
 
 
-    public void tableConnection()
+    public void tableConnection() // Подключение бд
     {
         DBPath = GetDatabasePath();
-        dbconnection = new SqliteConnection("Data Source=" + DBPath);
+        dbconnection = new SqliteConnection("URI=file:" + DBPath);
         dbconnection.Open();
     }
 
-    public void tableReset()
+    public void tableReset() // Проход по бд и вывод элементов на экран
     {
 
         foreach(Transform child in parent)
@@ -80,9 +71,9 @@ public class ConnectionDatabase : MonoBehaviour
     }
 
 
-    public void newCharacter()
+    public void newCharacter() // Создание нового элемента в бд
     {
-        SqliteCommand cmdWrite = dbconnection.CreateCommand();
+        IDbCommand cmdWrite = dbconnection.CreateCommand();
         cmdWrite.CommandText = "INSERT INTO Character (Name,Class,Rase,lvl) VALUES (\""+ Name.text + "\",\"" + Class.text + "\",\"" + Rase.text + "\",\"" + LvL.text + "\")";
         cmdWrite.ExecuteNonQuery();
         tableReset();
