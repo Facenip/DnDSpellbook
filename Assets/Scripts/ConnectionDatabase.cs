@@ -10,19 +10,28 @@ public class ConnectionDatabase : MonoBehaviour
     [SerializeField] private GameObject character;
     [SerializeField] private Transform parent;
     [SerializeField] TMP_InputField Name, LvL, Class, Rase;
+
+    [SerializeField] TMP_Text Txt;
+
     public SqliteConnection dbconnection;
     private string DBPath;
     private string fileName = "MainDB.s3db";
 
+    private string str="";
+
+
     private void Start() //Скрипт происходящий при запуске
     {
+        str += "Начало подключения базы данных\n";
         tableConnection();
         tableReset();
+        Txt.text = str;
     }
 
 
     private string GetDatabasePath() //Получение пути до базы данных
     {
+        str += "Поиск пути \n";
         string filePath = Application.dataPath + "/" + fileName;
         if (!File.Exists(filePath)) UnpackDatabase(filePath);
         return filePath;
@@ -30,6 +39,8 @@ public class ConnectionDatabase : MonoBehaviour
 
     private void UnpackDatabase(string toPath) //Распаковка базы данных (Опционально для Android)
     {
+        str += "WWW распаковка \n";
+
         string fromPath = Path.Combine(Application.dataPath + "/Raw", fileName);
 
         WWW reader = new WWW(fromPath);
@@ -42,8 +53,11 @@ public class ConnectionDatabase : MonoBehaviour
     public void tableConnection() // Подключение бд
     {
         DBPath = GetDatabasePath();
+        str += "Путь получен \n";
         dbconnection = new SqliteConnection("URI=file:" + DBPath);
         dbconnection.Open();
+
+        str += "Бд подключилась\n";
     }
 
     public void tableReset() // Проход по бд и вывод элементов на экран
