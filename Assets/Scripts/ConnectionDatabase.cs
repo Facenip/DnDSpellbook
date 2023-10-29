@@ -17,21 +17,18 @@ public class ConnectionDatabase : MonoBehaviour
     private string DBPath;
     private string fileName = "MainDB.s3db";
 
-    private string str="";
-
 
     private void Start() //Скрипт происходящий при запуске
     {
-        str += "Начало подключения базы данных\n";
+        Txt.text += "Начало подключения базы данных\n";
         tableConnection();
         tableReset();
-        Txt.text = str;
     }
 
 
     private string GetDatabasePath() //Получение пути до базы данных
     {
-        str += "Поиск пути \n";
+        Txt.text += "Поиск пути \n";
         string filePath = Application.dataPath + "/" + fileName;
         if (!File.Exists(filePath)) UnpackDatabase(filePath);
         return filePath;
@@ -39,7 +36,7 @@ public class ConnectionDatabase : MonoBehaviour
 
     private void UnpackDatabase(string toPath) //Распаковка базы данных (Опционально для Android)
     {
-        str += "WWW распаковка \n";
+        Txt.text += "WWW распаковка \n";
 
         string fromPath = Path.Combine(Application.dataPath + "/Raw", fileName);
 
@@ -53,11 +50,11 @@ public class ConnectionDatabase : MonoBehaviour
     public void tableConnection() // Подключение бд
     {
         DBPath = GetDatabasePath();
-        str += "Путь получен \n";
+        Txt.text += "Путь получен \n";
         dbconnection = new SqliteConnection("URI=file:" + DBPath);
         dbconnection.Open();
 
-        str += "Бд подключилась\n";
+        Txt.text += "Бд подключилась\n";
     }
 
     public void tableReset() // Проход по бд и вывод элементов на экран
