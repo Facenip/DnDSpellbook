@@ -18,13 +18,19 @@ public class ConnectionDatabase : MonoBehaviour
     private string fileName = "MainDB.s3db";
 
 
-    private void Start() //Скрипт происходящий при запуске
+/*    private void Start() //Скрипт происходящий при запуске
+    {
+        Txt.text += "Начало подключения базы данных\n";
+        tableConnection();
+        tableReset();
+    }*/
+
+    public void wtf() //Скрипт происходящий при запуске
     {
         Txt.text += "Начало подключения базы данных\n";
         tableConnection();
         tableReset();
     }
-
 
     private string GetDatabasePath() //Получение пути до базы данных
     {
